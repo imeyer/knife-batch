@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["ianmmeyer@gmail.com"]
   s.homepage    = "http://github.com/imeyer/knife-batch"
   s.summary     = %q{Knife plugin to run ssh commands against batches of servers}
-  s.description = %q{TODO: Write a gem description}
+  s.description = %q{`knife batch` is a wonderful little plugin for executing commands a la `knife ssh`, but doing it in groups of `n` with a sleep between execution iterations.}
 
   s.rubyforge_project = "knife-batch"
 
