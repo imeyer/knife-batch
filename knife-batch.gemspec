@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   s.version     = Knife::Batch::VERSION
   s.authors     = ["Ian Meyer"]
   s.email       = ["ianmmeyer@gmail.com"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
+  s.homepage    = "http://github.com/imeyer/knife-batch"
+  s.summary     = %q{Knife plugin to run ssh commands against batches of servers}
   s.description = %q{TODO: Write a gem description}
 
   s.rubyforge_project = "knife-batch"
@@ -20,5 +20,5 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+  s.add_runtime_dependency "chef"
 end
