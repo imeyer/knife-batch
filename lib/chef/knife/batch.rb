@@ -119,20 +119,7 @@ class Batch < Chef::Knife
            end
     (ui.fatal("No nodes returned from search!"); exit 10) if list.length == 0
 
-    parent_ary = Array.new
-    child_ary = Array.new
-    iter = 0
-    list.each do |item|
-      if (iter +=1) <= config[:batch_size].to_i
-        child_ary << item
-      else
-        parent_ary << child_ary
-        child_ary = Array.new
-        iter = 0
-      end
-    end
-
-    parent_ary
+    list.each_slice(config[:batch_size].to_i).to_a
   end
 
   def print_data(host, data)
