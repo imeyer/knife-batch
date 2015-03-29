@@ -112,8 +112,16 @@ class Batch < Chef::Knife
              q = Chef::Search::Query.new
              @action_nodes = q.search(:node, @name_args[0])[0]
              @action_nodes.each do |item|
-               i = format_for_display(item)[config[:attribute]]
-               r.push(i) unless i.nil?
+               next if item.nil?
+               if !config[:override_attribute] && item[:cloud] and item[:cloud][:public_hostname]
+                 i = format_for_display(item)[config[:attribute]]
+               elsif config[:override_attribute]
+                 i = extract_nested_value(item, config[:override_attribute])
+               else
+                 i = extract_nested_value(item, config[:attribute])
+               end
+               next if i.nil?
+               r.push(i)
              end
              r
            end
@@ -182,18 +190,20 @@ class Batch < Chef::Knife
     @ssh_session = nil
   end
 
+  def extract_nested_value(data_structure, path_spec)
+    ui.presenter.extract_nested_value(data_structure, path_spec)
+  end
+
   def run
     extend Chef::Mixin::Command
-      
+
     @longest = 0
     all_nodes = get_nodes
     all_nodes.each do |nodes|
       session_from_list(nodes)
 
       ssh_command(@name_args[1..-1].join(" "), nodes)
-      puts "*" * 80
-      puts "Taking a nap for #{config[:wait]} seconds..."
-      puts "*" * 80
+      Chef::Log.info"Taking a nap for #{config[:wait]} seconds..."
       sleep config[:wait].to_f
     end
   end
